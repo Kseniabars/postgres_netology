@@ -1,27 +1,29 @@
 create table if not exists Genre(
-	id BIGINT PRIMARY KEY GENERATED ALWAYS AS IDENTITY,
+	id BIGINT PRIMARY KEY,
 	name VARCHAR(70) not null
 
 );
 create table if not exists Artist(
-	id BIGINT PRIMARY KEY GENERATED ALWAYS AS IDENTITY,
+	id BIGINT PRIMARY KEY,
 	fio VARCHAR(150) not null,
 	nickname VARCHAR(150)
 );
 create table if not exists Album(
-	id BIGINT PRIMARY KEY GENERATED ALWAYS AS IDENTITY,
+	id BIGINT PRIMARY KEY,
 	name VARCHAR(70) not null,
 	year DATE
 );
 create table if not exists Song(
-	id BIGINT PRIMARY KEY GENERATED ALWAYS AS IDENTITY,
-	album_id BIGINT references Album(id),
+	id BIGINT PRIMARY KEY,
+	album_id BIGINT references album(id),
 	name VARCHAR(70) not null,
 	duration_sec INT not null,
  		CHECK (duration_sec>=15 AND duration_sec<=3600)
 );
+
+
 create table if not exists Compilation(
-	id BIGINT PRIMARY KEY GENERATED ALWAYS AS IDENTITY,
+	id BIGINT PRIMARY KEY,
 	name VARCHAR(100),
 	year INTEGER
 );

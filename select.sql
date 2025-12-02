@@ -1,11 +1,3 @@
-update song
-set duration_sec = 220
-where name = 'Веснушки';
-
-update song
-set name = 'My салют'
-where id = 60;
-
 
 select name, duration_sec from song
 where duration_sec = (select max(duration_sec )from song);
@@ -19,8 +11,8 @@ where year>=2018 and year<=2020;
 select nickname from artist
 where nickname NOT LIKE '% %' AND nickname  NOT LIKE '%-%';
 
-select name from song
-where name like '%My%' or name like '%Мой%';
+select name from song /* Имя трека из таблицы треков */
+WHERE string_to_array(lower(name),' ') && array['my','мой'];
 
 SELECT name, COUNT(artist_id) artist_q FROM genreartist g
 JOIN artist a ON g.artist_id  = a.id
@@ -41,7 +33,13 @@ order by d desc;
 select nickname from artistalbum a
 join artist a2 on a2.id = a.artist_id
 join album a3 on a3.id = a.album_id
-where EXTRACT(YEAR FROM a3.year) != 2020;
+WHERE a2.nickname  NOT IN ( /* Где имя исполнителя не входит в вложенную выборку */
+SELECT nickname /* Получаем имена исполнителей */
+FROM artist a2 /* Из таблицы исполнителей */
+JOIN artistalbum aa ON a2.id  = aa.artist_id  /* Объединяем с промежуточной таблицей */
+JOIN album ON album.id = aa.album_id  /* Объединяем с таблицей альбомов */
+WHERE EXTRACT(YEAR FROM a3.year) = 2020 /* Где год альбома равен 2020 */
+);
 
 select c.name from compilation c
 join songcompilation s on s.compilation_id = c.id
@@ -55,7 +53,7 @@ select a.name from artistalbum aa
 join album a on a.id = aa.album_id
 join artist ar on ar.id = aa.artist_id
 join genreartist ga on ga.artist_id = aa.artist_id
-group by a.name
+group by a.name, aa.artist_id
 having (count(distinct ga.artist_id))>1;
 
 insert into song(id, album_id,name, duration_sec)
@@ -81,4 +79,6 @@ from(SELECT COUNT(s.album_id) as s_count
         GROUP BY al.id)al_songs);
 
 
+insert into song (id, album_id, name, duration_sec)
+values (80, 2, 'myself', 230);
 

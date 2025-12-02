@@ -1,4 +1,3 @@
-
 insert into Artist (id, fio, nickname)
 values (11,'Погорелов Игорь', 'Гарик Погорелов');
 
@@ -51,6 +50,8 @@ values (10,1, 'Знай, знаю', 140),
 (50, 4,'Владимирский централ',185),
 (60, 2,'Салют', 170);
 
+
+
 insert into compilation (id, name, year)
 values (111,'Лучшее за 2024', 2024),
 (222,'Популярное Скирена', 2022),
@@ -58,6 +59,12 @@ values (111,'Лучшее за 2024', 2024),
 (444,'В акустическом исполнении',2019);
 
 insert into songcompilation (song_id, compilation_id)
-values (10,222),(20,333),
-(30,444),(40,444),
-(50,111),(60,333);
+values (10,222),(20,333),(30,444),(40,444),(50,111),(60,333);
+
+update song
+set duration_sec = 220
+where name = 'Веснушки';
+
+update song
+set name = 'My салют'
+where id = 60;
